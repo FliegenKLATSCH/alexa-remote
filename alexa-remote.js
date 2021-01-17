@@ -106,6 +106,9 @@ class AlexaRemote extends EventEmitter {
             if (!self.cookie) {
                 self._options.logger && self._options.logger('Alexa-Remote: No cookie given, generate one');
                 self._options.cookieJustCreated = true;
+                if (!self._options.email || !self._options.password) {
+                    return callback(new Error("Email and password are required to generate a cookie."));
+                }
                 self.generateCookie(self._options.email, self._options.password, function(err, res) {
                     if (!err && res) {
                         self.setCookie(res); // update
